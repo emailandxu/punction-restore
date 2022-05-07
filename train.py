@@ -5,6 +5,7 @@ from dataset.pr_dataset import Dataset
 import tensorflow as tf
 import tensorflow_addons as tfa
 from configs.config import Config
+from metrics.f1 import F1
 from models.transformer import Encoder as Model
 from optimizers import get_optimizer
 from vocab.vocab import Vocab
@@ -34,7 +35,8 @@ with strategy.scope():
         optimizer=get_optimizer(config), 
         loss=tfa.losses.SigmoidFocalCrossEntropy(from_logits=True, alpha = 0.25, gamma  = 2.0),
         metrics=[
-            tf.keras.metrics.CategoricalAccuracy()
+            tf.keras.metrics.CategoricalAccuracy(),
+            F1(num_classes=4)
         ],
         run_eagerly=config.running_config["run_eagerly"]
     )

@@ -26,7 +26,7 @@ optimizer_config:
   epsilon: 1e-9
 
 running_config:
-  use_multi_gpu : false
+  use_multi_gpu : true
   run_eagerly : false
   batch_size: 100
   epochs: 100

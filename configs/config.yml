@@ -1,0 +1,33 @@
+vocab_config:
+  vocab_path: vocab/vocab_7k_211116.txt
+  
+model_config:
+  name: encoder
+  embedding_dim: 512
+  num_layers: 8
+  num_heads: 8
+  dff: 2048
+  dropout: 0.1
+
+dataset_config:
+  data_path: '/home/xushuli/data/'
+  corpus_name: news_pr_zh
+  train_prefix: train
+  dev_prefix: dev
+  test_prefix: test
+  quick_debug : false
+
+optimizer_config:
+  init_steps: 50000
+  warmup_steps: 10000
+  max_lr: 5e-6
+  beta1: 0.9
+  beta2: 0.999
+  epsilon: 1e-9
+
+running_config:
+  use_multi_gpu : false
+  run_eagerly : false
+  batch_size: 100
+  epochs: 100
+  steps_per_epoch: 2000

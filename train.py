@@ -25,12 +25,13 @@ BATCH_SIZE = config.running_config["batch_size"] * strategy.num_replicas_in_sync
 #%%
 train_ds = dataset.train.tfds().map(lambda x,y: (x, tf.one_hot(y, 4)),num_parallel_calls=cpu_count())
 dev_ds = dataset.dev.tfds().map(lambda x,y: (x, tf.one_hot(y, 4)),num_parallel_calls=cpu_count())
-train_ds = train_ds.batch(BATCH_SIZE).prefetch(10)
-dev_ds = dev_ds.batch(BATCH_SIZE).prefetch(10)
+train_ds = train_ds.batch(BATCH_SIZE).prefetch(10).repeat(100)
+dev_ds = dev_ds.batch(BATCH_SIZE).prefetch(10).repeat(100)
 
 with strategy.scope():
     model = Model(**config.model_config, vocab_size=len(vocab)).init_build()
     model.summary()
+    model.load_weights("./saved_weights/my_model")
     model.compile(
         optimizer=get_optimizer(config), 
         loss=tfa.losses.SigmoidFocalCrossEntropy(from_logits=True, alpha = 0.25, gamma  = 2.0),

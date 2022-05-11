@@ -51,9 +51,16 @@ class Encoder(tf.keras.Model):
 
         return output
 
-    def init_build(self):
+    def init_build(self, weights_path=None, summary=True):
         x = tf.keras.Input(shape=[None], dtype=tf.int16)
         self(x, states=None, return_state=True, training=False)
+
+        if weights_path is not None:
+            self.load_weights(weights_path)
+
+        if summary:
+            self.summary()
+
         return self
 
     # @tf.function(input_signature=[tf.TensorSpec([None], dtype=tf.int32)])

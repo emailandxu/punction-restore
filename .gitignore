@@ -1,3 +1,4 @@
 *.pyc
 logs
 saved_weights
+samples
